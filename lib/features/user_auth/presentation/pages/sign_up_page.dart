@@ -26,6 +26,8 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _usertypeController = TextEditingController();
 
   bool isSigningUp = false;
+  bool self = false;
+  bool organisation = false;
 
   @override
   void dispose() {
@@ -62,67 +64,41 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(
                   height: 30,
                 ),
-                FormContainerWidget(
-                  controller: _usernameController,
-                  hintText: " Full Name",
-                  isPasswordField: false,
+                Row(
+                  children: [
+                    Expanded(
+                      child: CheckboxListTile(
+                        title: Text('Self Use'),
+                        value: self,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            self = value!;
+                            organisation = !self;
+                          });
+                        },
+                      ),
+                    ),
+                    Text(
+                      '|',
+                      style: TextStyle(
+                        fontSize: 30.0,
+                      ),
+                    ),
+                    Expanded(
+                      child: CheckboxListTile(
+                        title: Text('Organisation'),
+                        value: organisation,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            organisation = value!;
+                            self = !organisation;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                FormContainerWidget(
-                  controller: _usertypeController,
-                  hintText: "UserType:(ex.NGO,Hospital,Doctor)",
-                  isPasswordField: false,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                FormContainerWidget(
-                  controller: _firmnameController,
-                  hintText: "Name of the Firm",
-                  isPasswordField: false,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                FormContainerWidget(
-                  controller: _addressController,
-                  hintText: "Address of the Firm",
-                  isPasswordField: false,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                FormContainerWidget(
-                  controller: _licenceController,
-                  hintText: "Government License id Number",
-                  isPasswordField: false,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                FormContainerWidget(
-                  controller: _userphoneController,
-                  hintText: "Phone no.",
-                  isPasswordField: false,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                FormContainerWidget(
-                  controller: _emailController,
-                  hintText: "Email",
-                  isPasswordField: false,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                FormContainerWidget(
-                  controller: _passwordController,
-                  hintText: "Password",
-                  isPasswordField: true,
-                ),
+                _buildFormWidgets(), // Call the method for conditional rendering
                 SizedBox(
                   height: 30,
                 ),
@@ -183,6 +159,96 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  Widget _buildFormWidgets() {
+    if (organisation) {
+      return Column(
+        children: [
+          FormContainerWidget(
+            controller: _usernameController,
+            hintText: "Full Name",
+            isPasswordField: false,
+          ),
+          SizedBox(height: 10),
+          FormContainerWidget(
+            controller: _usertypeController,
+            hintText: "UserType:(ex.NGO,Hospital,Doctor)",
+            isPasswordField: false,
+          ),
+          SizedBox(height: 10),
+          FormContainerWidget(
+            controller: _firmnameController,
+            hintText: "Name of the Firm",
+            isPasswordField: false,
+          ),
+          SizedBox(height: 10),
+          FormContainerWidget(
+            controller: _addressController,
+            hintText: "Address of the Firm",
+            isPasswordField: false,
+          ),
+          SizedBox(height: 10),
+          FormContainerWidget(
+            controller: _licenceController,
+            hintText: "Government License id Number",
+            isPasswordField: false,
+          ),
+          SizedBox(height: 10),
+          FormContainerWidget(
+            controller: _userphoneController,
+            hintText: "Phone no.",
+            isPasswordField: false,
+          ),
+          SizedBox(height: 10),
+          FormContainerWidget(
+            controller: _emailController,
+            hintText: "Email",
+            isPasswordField: false,
+          ),
+          SizedBox(height: 10),
+          FormContainerWidget(
+            controller: _passwordController,
+            hintText: "Password",
+            isPasswordField: true,
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          FormContainerWidget(
+            controller: _usernameController,
+            hintText: "Full Name",
+            isPasswordField: false,
+          ),
+          SizedBox(height: 10),
+          FormContainerWidget(
+            controller: _addressController,
+            hintText: "Address",
+            isPasswordField: false,
+          ),
+          SizedBox(height: 10),
+          FormContainerWidget(
+            controller: _userphoneController,
+            hintText: "Phone no.",
+            isPasswordField: false,
+          ),
+          SizedBox(height: 10),
+          FormContainerWidget(
+            controller: _emailController,
+            hintText: "Email",
+            isPasswordField: false,
+          ),
+          SizedBox(height: 10),
+          FormContainerWidget(
+            controller: _passwordController,
+            hintText: "Password",
+            isPasswordField: true,
+          ),
+        ],
+      ); // Returns an empty widget if not organisation
+    }
+  }
+
   void _signUp() async {
     setState(() {
       isSigningUp = true;
@@ -219,7 +285,7 @@ class _SignUpPageState extends State<SignUpPage> {
       }
 
       showToast(message: "User is successfully created");
-      Navigator.pushNamed(context, "/listpage");
+      Navigator.pushNamed(context, "/dashboard");
     } else {
       showToast(message: "Some error happend");
     }

@@ -424,23 +424,6 @@ class _CustomerReqState extends State<CustomerReq> {
                           ),
                         ),
                         SizedBox(width: 10.0),
-                        // Expanded(
-                        //   child: TextFormField(
-                        //     textAlign: TextAlign.left,
-                        //     onChanged: (value) {
-                        //       amount = value;
-                        //     },
-                        //     decoration: customElevate(
-                        //         'Amount', Icons.currency_rupee_rounded),
-                        //     validator: (value) {
-                        //       // Add validation for required field
-                        //       if (value == null || value.isEmpty) {
-                        //         return '';
-                        //       }
-                        //       return null;
-                        //     },
-                        //   ),
-                        // ),
                       ],
                     ),
                     SizedBox(height: 10.0),
