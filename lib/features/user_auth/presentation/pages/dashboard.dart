@@ -52,27 +52,27 @@ class DashBoard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
-                      width: 150.0,
-                      height: 210.0,
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              'assets/image/insti.png',
-                              fit: BoxFit.contain,
-                            ),
-                            const Text(
-                              'Organisation ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   width: 150.0,
+                    //   height: 210.0,
+                    //   child: GestureDetector(
+                    //     onTap: () {},
+                    //     child: Column(
+                    //       children: [
+                    //         Image.asset(
+                    //           'assets/image/insti.png',
+                    //           fit: BoxFit.contain,
+                    //         ),
+                    //         const Text(
+                    //           'Organisation ',
+                    //           style: TextStyle(
+                    //             fontWeight: FontWeight.bold,
+                    //           ),
+                    //         )
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
                       width: 150.0,
                       height: 210.0,

@@ -32,6 +32,7 @@ class _CustomerReqState extends State<CustomerReq> {
   String? sdp;
   String? pediatricbag;
   String? type;
+  String? doctorname;
 
   late User loggedInuser;
   List<String> genders = [
@@ -111,7 +112,7 @@ class _CustomerReqState extends State<CustomerReq> {
                         name = value;
                       },
                       decoration: customElevate(
-                        ' Name',
+                        'Full Name',
                         Icons.account_box_rounded,
                       ),
                       validator: (value) {
@@ -224,13 +225,13 @@ class _CustomerReqState extends State<CustomerReq> {
                         diagnosis = value;
                       },
                       decoration: customElevate('Enter Diagnosis', Icons.home),
-                      validator: (value) {
-                        // Add validation for required field
-                        if (value == null || value.isEmpty) {
-                          return 'Enter Diagnosis';
-                        }
-                        return null;
-                      },
+                      // validator: (value) {
+                      //   // Add validation for required field
+                      //   if (value == null || value.isEmpty) {
+                      //     return 'Enter Diagnosis';
+                      //   }
+                      //   return null;
+                      // },
                     ),
                     SizedBox(height: 20.0),
                     Text('Blood Component Requirement'),
@@ -245,13 +246,13 @@ class _CustomerReqState extends State<CustomerReq> {
                               wb = value;
                             },
                             decoration: customElevate('WB', Icons.bloodtype),
-                            validator: (value) {
-                              // Add validation for required field
-                              if (value == null || value.isEmpty) {
-                                return 'Enter Value';
-                              }
-                              return null;
-                            },
+                            // validator: (value) {
+                            //   // Add validation for required field
+                            //   if (value == null || value.isEmpty) {
+                            //     return 'Enter Value';
+                            //   }
+                            //   return null;
+                            // },
                           ),
                         ),
                         SizedBox(width: 10.0),
@@ -262,13 +263,13 @@ class _CustomerReqState extends State<CustomerReq> {
                               prc = value;
                             },
                             decoration: customElevate('PRC', Icons.bloodtype),
-                            validator: (value) {
-                              // Add validation for required field
-                              if (value == null || value.isEmpty) {
-                                return 'Enter Value';
-                              }
-                              return null;
-                            },
+                            // validator: (value) {
+                            //   // Add validation for required field
+                            //   if (value == null || value.isEmpty) {
+                            //     return 'Enter Value';
+                            //   }
+                            //   return null;
+                            // },
                           ),
                         ),
                         SizedBox(width: 10.0),
@@ -279,13 +280,13 @@ class _CustomerReqState extends State<CustomerReq> {
                               ffp = value;
                             },
                             decoration: customElevate('FFP', Icons.bloodtype),
-                            validator: (value) {
-                              // Add validation for required field
-                              if (value == null || value.isEmpty) {
-                                return 'Enter Value';
-                              }
-                              return null;
-                            },
+                            // validator: (value) {
+                            //   // Add validation for required field
+                            //   if (value == null || value.isEmpty) {
+                            //     return 'Enter Value';
+                            //   }
+                            //   return null;
+                            // },
                           ),
                         ),
                       ],
@@ -300,13 +301,13 @@ class _CustomerReqState extends State<CustomerReq> {
                               rdp = value;
                             },
                             decoration: customElevate('RDP', Icons.bloodtype),
-                            validator: (value) {
-                              // Add validation for required field
-                              if (value == null || value.isEmpty) {
-                                return 'Enter Value';
-                              }
-                              return null;
-                            },
+                            // validator: (value) {
+                            //   // Add validation for required field
+                            //   if (value == null || value.isEmpty) {
+                            //     return 'Enter Value';
+                            //   }
+                            //   return null;
+                            // },
                           ),
                         ),
                         SizedBox(width: 10.0),
@@ -317,13 +318,13 @@ class _CustomerReqState extends State<CustomerReq> {
                               sdp = value;
                             },
                             decoration: customElevate('SDP', Icons.bloodtype),
-                            validator: (value) {
-                              // Add validation for required field
-                              if (value == null || value.isEmpty) {
-                                return 'Enter Value';
-                              }
-                              return null;
-                            },
+                            // validator: (value) {
+                            //   // Add validation for required field
+                            //   if (value == null || value.isEmpty) {
+                            //     return 'Enter Value';
+                            //   }
+                            //   return null;
+                            // },
                           ),
                         ),
                       ],
@@ -336,13 +337,13 @@ class _CustomerReqState extends State<CustomerReq> {
                       },
                       decoration: customElevate(
                           'Pediatric 100ml/Bags', Icons.bloodtype),
-                      validator: (value) {
-                        // Add validation for required field
-                        if (value == null || value.isEmpty) {
-                          return 'Enter Value';
-                        }
-                        return null;
-                      },
+                      // validator: (value) {
+                      //   // Add validation for required field
+                      //   if (value == null || value.isEmpty) {
+                      //     return 'Enter Value';
+                      //   }
+                      //   return null;
+                      // },
                     ),
                     SizedBox(height: 20.0),
                     Text('Delivery & Payment Details'),
@@ -427,6 +428,22 @@ class _CustomerReqState extends State<CustomerReq> {
                       ],
                     ),
                     SizedBox(height: 10.0),
+                    TextFormField(
+                      textAlign: TextAlign.left,
+                      onChanged: (value) {
+                        doctorname = value;
+                      },
+                      decoration:
+                          customElevate('Enter Doctor Name', Icons.home),
+                      validator: (value) {
+                        // Add validation for required field
+                        if (value == null || value.isEmpty) {
+                          return 'Enter Doctor Name';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 10.0),
                   ],
                 ),
               ),
@@ -466,6 +483,7 @@ class _CustomerReqState extends State<CustomerReq> {
                     'ffp': ffp,
                     'rdp': rdp,
                     'type': type,
+                    'doctor': doctorname,
                   });
                   // Delay for 1 second and then redirect to dashboard
                   Navigator.pushNamed(context, '/listpage');

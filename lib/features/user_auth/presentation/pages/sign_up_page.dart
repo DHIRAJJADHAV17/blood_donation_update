@@ -6,6 +6,8 @@ import 'package:flutter_firebase/features/user_auth/presentation/pages/login_pag
 import 'package:flutter_firebase/features/user_auth/presentation/widgets/form_container_widget.dart';
 import 'package:flutter_firebase/global/common/toast.dart';
 
+import '../widgets/components.dart';
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -28,6 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
   bool isSigningUp = false;
   bool self = false;
   bool organisation = false;
+  String? imageUrl;
 
   @override
   void dispose() {
@@ -210,6 +213,35 @@ class _SignUpPageState extends State<SignUpPage> {
             hintText: "Password",
             isPasswordField: true,
           ),
+          Column(
+            children: [
+              // Show loading indicator or image based on the presence of imageUrl
+              if (imageUrl == null)
+                IconButton(
+                  icon: const Icon(
+                    Icons.person,
+                    size: 100,
+                  ),
+                  onPressed: () async {
+                    imageUrl = await uploadimg();
+                    setState(
+                        () {}); // Update the UI after image upload completes
+                  },
+                ),
+              if (imageUrl != null)
+                Image.network(
+                  imageUrl!, // Show the uploaded image
+                  width: 100,
+                  height: 100,
+                ),
+              const Text(
+                'Gov.id image',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ],
       );
     } else {
@@ -244,6 +276,35 @@ class _SignUpPageState extends State<SignUpPage> {
             hintText: "Password",
             isPasswordField: true,
           ),
+          Column(
+            children: [
+              // Show loading indicator or image based on the presence of imageUrl
+              if (imageUrl == null)
+                IconButton(
+                  icon: const Icon(
+                    Icons.person,
+                    size: 100,
+                  ),
+                  onPressed: () async {
+                    imageUrl = await uploadimg();
+                    setState(
+                        () {}); // Update the UI after image upload completes
+                  },
+                ),
+              if (imageUrl != null)
+                Image.network(
+                  imageUrl!, // Show the uploaded image
+                  width: 100,
+                  height: 100,
+                ),
+              const Text(
+                'Adhar image',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ],
       ); // Returns an empty widget if not organisation
     }
@@ -269,17 +330,47 @@ class _SignUpPageState extends State<SignUpPage> {
     setState(() {
       isSigningUp = false;
     });
+    if (imageUrl == null) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Please upload both images.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
     if (user != null) {
       try {
-        await FirebaseFirestore.instance.collection('registration').add({
-          'username': username,
-          'phone': phone,
-          'license': license,
-          'address': address,
-          'firmname': firmname,
-          'usertype': usertype,
-          'email': email,
-        });
+        if (organisation) {
+          await FirebaseFirestore.instance.collection('registration').add({
+            'username': username,
+            'phone': phone,
+            'license': license,
+            'address': address,
+            'firmname': firmname,
+            'usertype': self,
+            'email': email,
+            'image': imageUrl,
+          });
+        } else {
+          await FirebaseFirestore.instance.collection('registration').add({
+            'username': username,
+            'phone': phone,
+            'address': address,
+            'usertype': self,
+            'email': email,
+            'image': imageUrl,
+          });
+        }
       } catch (e) {
         print(e);
       }
