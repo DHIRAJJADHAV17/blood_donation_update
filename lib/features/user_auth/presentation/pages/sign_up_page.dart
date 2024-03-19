@@ -1,12 +1,45 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/features/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:flutter_firebase/features/user_auth/presentation/pages/login_page.dart';
 import 'package:flutter_firebase/features/user_auth/presentation/widgets/form_container_widget.dart';
 import 'package:flutter_firebase/global/common/toast.dart';
+import 'package:image_picker/image_picker.dart';
 
-import '../widgets/components.dart';
+Future<String> uploadimg() async {
+  String? imageUrl;
+  ImagePicker imagePicker = ImagePicker();
+  XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+
+  // Check if a file was selected
+  if (file == null) {
+    print('No image selected');
+    return ""; // Return an empty string if no image was selected
+  }
+
+  print('Selected image path: ${file.path}');
+
+  // Proceed with uploading the image
+  String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+  Reference referenceRoot = FirebaseStorage.instance.ref();
+  Reference referanceDirImages = referenceRoot.child('images');
+  Reference referanceimgtoupload = referanceDirImages.child(uniqueFilename);
+
+  try {
+    await referanceimgtoupload.putFile(File(file.path));
+    imageUrl = await referanceimgtoupload.getDownloadURL();
+    print('Image uploaded successfully');
+  } catch (e) {
+    print('Error uploading image: $e');
+  }
+
+  return imageUrl ??
+      ""; // Return imageUrl or an empty string if imageUrl is null
+}
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -28,7 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _usertypeController = TextEditingController();
 
   bool isSigningUp = false;
-  bool self = false;
+  bool self = true;
   bool organisation = false;
   String? imageUrl;
 
@@ -219,23 +252,44 @@ class _SignUpPageState extends State<SignUpPage> {
               if (imageUrl == null)
                 IconButton(
                   icon: const Icon(
-                    Icons.person,
+                    Icons.paste_sharp,
                     size: 100,
                   ),
                   onPressed: () async {
-                    imageUrl = await uploadimg();
-                    setState(
-                        () {}); // Update the UI after image upload completes
+                    await _selectImage();
                   },
                 ),
               if (imageUrl != null)
-                Image.network(
-                  imageUrl!, // Show the uploaded image
-                  width: 100,
-                  height: 100,
+                Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        await _selectImage();
+                      },
+                      child: Image.network(
+                        imageUrl!, // Show the uploaded image
+                        width: 100,
+                        height: 100,
+                      ),
+                    ),
+                    Positioned(
+                      top: 4, // Adjust top position as needed
+                      right: -15, // Adjust right position as needed
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          color: Colors.red, // Adjust icon color as needed
+                        ),
+                        onPressed: () {
+                          _deleteImage();
+                        },
+                      ),
+                    ),
+                  ],
                 ),
+
               const Text(
-                'Gov.id image',
+                'Government License',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -286,19 +340,40 @@ class _SignUpPageState extends State<SignUpPage> {
                     size: 100,
                   ),
                   onPressed: () async {
-                    imageUrl = await uploadimg();
-                    setState(
-                        () {}); // Update the UI after image upload completes
+                    await _selectImage();
                   },
                 ),
               if (imageUrl != null)
-                Image.network(
-                  imageUrl!, // Show the uploaded image
-                  width: 100,
-                  height: 100,
+                Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        await _selectImage();
+                      },
+                      child: Image.network(
+                        imageUrl!, // Show the uploaded image
+                        width: 100,
+                        height: 100,
+                      ),
+                    ),
+                    Positioned(
+                      top: 4, // Adjust top position as needed
+                      right: -15, // Adjust right position as needed
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          color: Colors.red, // Adjust icon color as needed
+                        ),
+                        onPressed: () {
+                          _deleteImage();
+                        },
+                      ),
+                    ),
+                  ],
                 ),
+
               const Text(
-                'Adhar image',
+                'Adhar Image',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -307,6 +382,36 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ],
       ); // Returns an empty widget if not organisation
+    }
+  }
+
+  Future<void> _selectImage() async {
+    XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    // Check if a file was selected
+    if (file != null) {
+      setState(() {
+        // Update the imageUrl variable with the newly selected image
+        imageUrl = null; // Clear the imageUrl to remove the previous image
+      });
+
+      // Proceed with uploading the newly selected image
+      String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference referenceRoot = FirebaseStorage.instance.ref();
+      Reference referanceDirImages = referenceRoot.child('images');
+      Reference referanceimgtoupload = referanceDirImages.child(uniqueFilename);
+
+      try {
+        await referanceimgtoupload.putFile(File(file.path));
+        String newImageUrl = await referanceimgtoupload.getDownloadURL();
+        setState(() {
+          // Update the imageUrl variable with the new image URL
+          imageUrl = newImageUrl;
+        });
+        print('Image uploaded successfully');
+      } catch (e) {
+        print('Error uploading image: $e');
+      }
     }
   }
 
@@ -325,17 +430,12 @@ class _SignUpPageState extends State<SignUpPage> {
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    User? user = await _auth.signUpWithEmailAndPassword(email, password);
-
-    setState(() {
-      isSigningUp = false;
-    });
     if (imageUrl == null) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Error'),
-          content: const Text('Please upload both images.'),
+          content: const Text('Please upload image.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -346,8 +446,14 @@ class _SignUpPageState extends State<SignUpPage> {
           ],
         ),
       );
+      setState(() {
+        isSigningUp = false;
+      });
       return;
     }
+
+    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+
     if (user != null) {
       try {
         if (organisation) {
@@ -378,7 +484,27 @@ class _SignUpPageState extends State<SignUpPage> {
       showToast(message: "User is successfully created");
       Navigator.pushNamed(context, "/dashboard");
     } else {
-      showToast(message: "Some error happend");
+      showToast(message: "Some error happened");
+    }
+
+    setState(() {
+      isSigningUp = false;
+    });
+  }
+
+  Future<void> _deleteImage() async {
+    if (imageUrl != null) {
+      try {
+        // Delete the image from Firebase Storage
+        await FirebaseStorage.instance.refFromURL(imageUrl!).delete();
+        // Reset the imageUrl variable to null
+        setState(() {
+          imageUrl = null;
+        });
+        print('Image deleted successfully');
+      } catch (e) {
+        print('Error deleting image: $e');
+      }
     }
   }
 }

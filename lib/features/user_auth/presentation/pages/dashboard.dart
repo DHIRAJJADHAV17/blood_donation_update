@@ -10,8 +10,9 @@ class DashBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Container(
-          margin: EdgeInsets.only(top: 10.0),
+          margin: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -21,21 +22,8 @@ class DashBoard extends StatelessWidget {
                   Navigator.pushNamed(context, "/login");
                   showToast(message: "Successfully signed out");
                 },
-                child: Container(
-                  height: 45,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Center(
-                    child: Text(
-                      "Sign out",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
-                    ),
-                  ),
+                child: Icon(
+                  Icons.logout_outlined,
                 ),
               ),
             ],
@@ -52,32 +40,13 @@ class DashBoard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    // SizedBox(
-                    //   width: 150.0,
-                    //   height: 210.0,
-                    //   child: GestureDetector(
-                    //     onTap: () {},
-                    //     child: Column(
-                    //       children: [
-                    //         Image.asset(
-                    //           'assets/image/insti.png',
-                    //           fit: BoxFit.contain,
-                    //         ),
-                    //         const Text(
-                    //           'Organisation ',
-                    //           style: TextStyle(
-                    //             fontWeight: FontWeight.bold,
-                    //           ),
-                    //         )
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
                     SizedBox(
                       width: 150.0,
                       height: 210.0,
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, '/listpage');
+                        },
                         child: Column(
                           children: [
                             Image.asset(
@@ -108,7 +77,9 @@ class DashBoard extends StatelessWidget {
                       width: 150.0,
                       height: 210.0,
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, '/donatelist');
+                        },
                         child: Column(
                           children: [
                             Image.asset(

@@ -30,7 +30,7 @@ class _CustomerReqState extends State<CustomerReq> {
   String? ffp;
   String? rdp;
   String? sdp;
-  String? pediatricbag;
+  String? bag;
   String? type;
   String? doctorname;
 
@@ -43,6 +43,14 @@ class _CustomerReqState extends State<CustomerReq> {
   List<String> modetype = [
     'Cash',
     'Online',
+  ];
+  List<String> bloodcomponent = [
+    'Whole Human Blood',
+    'Packed Red Cell Concentrate',
+    'Fresh Frozen Plasma',
+    'Random Donor Platelet',
+    'Single Donar Platelet',
+    'Pediatric Bag ',
   ];
   List<String> bloods = [
     'A+',
@@ -237,113 +245,44 @@ class _CustomerReqState extends State<CustomerReq> {
                     Text('Blood Component Requirement'),
                     Divider(),
                     SizedBox(height: 10.0),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            textAlign: TextAlign.left,
-                            onChanged: (value) {
-                              wb = value;
-                            },
-                            decoration: customElevate('WB', Icons.bloodtype),
-                            // validator: (value) {
-                            //   // Add validation for required field
-                            //   if (value == null || value.isEmpty) {
-                            //     return 'Enter Value';
-                            //   }
-                            //   return null;
-                            // },
-                          ),
-                        ),
-                        SizedBox(width: 10.0),
-                        Expanded(
-                          child: TextFormField(
-                            textAlign: TextAlign.left,
-                            onChanged: (value) {
-                              prc = value;
-                            },
-                            decoration: customElevate('PRC', Icons.bloodtype),
-                            // validator: (value) {
-                            //   // Add validation for required field
-                            //   if (value == null || value.isEmpty) {
-                            //     return 'Enter Value';
-                            //   }
-                            //   return null;
-                            // },
-                          ),
-                        ),
-                        SizedBox(width: 10.0),
-                        Expanded(
-                          child: TextFormField(
-                            textAlign: TextAlign.left,
-                            onChanged: (value) {
-                              ffp = value;
-                            },
-                            decoration: customElevate('FFP', Icons.bloodtype),
-                            // validator: (value) {
-                            //   // Add validation for required field
-                            //   if (value == null || value.isEmpty) {
-                            //     return 'Enter Value';
-                            //   }
-                            //   return null;
-                            // },
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.0),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            textAlign: TextAlign.left,
-                            onChanged: (value) {
-                              rdp = value;
-                            },
-                            decoration: customElevate('RDP', Icons.bloodtype),
-                            // validator: (value) {
-                            //   // Add validation for required field
-                            //   if (value == null || value.isEmpty) {
-                            //     return 'Enter Value';
-                            //   }
-                            //   return null;
-                            // },
-                          ),
-                        ),
-                        SizedBox(width: 10.0),
-                        Expanded(
-                          child: TextFormField(
-                            textAlign: TextAlign.left,
-                            onChanged: (value) {
-                              sdp = value;
-                            },
-                            decoration: customElevate('SDP', Icons.bloodtype),
-                            // validator: (value) {
-                            //   // Add validation for required field
-                            //   if (value == null || value.isEmpty) {
-                            //     return 'Enter Value';
-                            //   }
-                            //   return null;
-                            // },
-                          ),
-                        ),
-                      ],
+                    DropdownButtonFormField<String>(
+                      value: bag,
+                      onChanged: (newValue) {
+                        setState(() {
+                          bag = newValue;
+                        });
+                      },
+                      items: bloodcomponent.map((mode) {
+                        return DropdownMenuItem<String>(
+                          value: mode,
+                          child: Text(mode),
+                        );
+                      }).toList(),
+                      decoration: customElevate(
+                          'Select Blood Requirement', Icons.payment),
+                      validator: (value) {
+                        // Add validation for required field
+                        if (value == null || value.isEmpty) {
+                          return 'Select Field';
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
                       textAlign: TextAlign.left,
                       onChanged: (value) {
-                        pediatricbag = value;
+                        ffp = value;
                       },
                       decoration: customElevate(
-                          'Pediatric 100ml/Bags', Icons.bloodtype),
-                      // validator: (value) {
-                      //   // Add validation for required field
-                      //   if (value == null || value.isEmpty) {
-                      //     return 'Enter Value';
-                      //   }
-                      //   return null;
-                      // },
+                          'Quantity required 100ml/Bags', Icons.bloodtype),
+                      validator: (value) {
+                        // Add validation for required field
+                        if (value == null || value.isEmpty) {
+                          return 'Enter Value';
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 20.0),
                     Text('Delivery & Payment Details'),
@@ -397,35 +336,27 @@ class _CustomerReqState extends State<CustomerReq> {
                       },
                     ),
                     SizedBox(height: 10.0),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButtonFormField<String>(
-                            value: paymentmode,
-                            onChanged: (newValue) {
-                              setState(() {
-                                paymentmode = newValue;
-                              });
-                            },
-                            items: modetype.map((mode) {
-                              return DropdownMenuItem<String>(
-                                value: mode,
-                                child: Text(mode),
-                              );
-                            }).toList(),
-                            decoration:
-                                customElevate('Payment Type', Icons.payment),
-                            validator: (value) {
-                              // Add validation for required field
-                              if (value == null || value.isEmpty) {
-                                return 'Select Payment';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        SizedBox(width: 10.0),
-                      ],
+                    DropdownButtonFormField<String>(
+                      value: paymentmode,
+                      onChanged: (newValue) {
+                        setState(() {
+                          paymentmode = newValue;
+                        });
+                      },
+                      items: modetype.map((mode) {
+                        return DropdownMenuItem<String>(
+                          value: mode,
+                          child: Text(mode),
+                        );
+                      }).toList(),
+                      decoration: customElevate('Payment Type', Icons.payment),
+                      validator: (value) {
+                        // Add validation for required field
+                        if (value == null || value.isEmpty) {
+                          return 'Select Payment';
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
@@ -433,8 +364,8 @@ class _CustomerReqState extends State<CustomerReq> {
                       onChanged: (value) {
                         doctorname = value;
                       },
-                      decoration:
-                          customElevate('Enter Doctor Name', Icons.home),
+                      decoration: customElevate(
+                          'Enter Doctor Name', Icons.local_hospital),
                       validator: (value) {
                         // Add validation for required field
                         if (value == null || value.isEmpty) {
@@ -477,7 +408,7 @@ class _CustomerReqState extends State<CustomerReq> {
                     'ffp': ffp,
                     'rdp': rdp,
                     'sdp': sdp,
-                    'pediatricbag': pediatricbag,
+                    'required': bag,
                     'rdp': rdp,
                     'prc': prc,
                     'ffp': ffp,

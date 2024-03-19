@@ -1,8 +1,4 @@
-import 'dart:io';
-
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 InputDecoration customElevate(String title, IconData icon) {
   return InputDecoration(
@@ -33,27 +29,4 @@ InputDecoration customElevate(String title, IconData icon) {
     ),
     prefixIcon: Icon(icon),
   );
-}
-
-Future<String> uploadimg() async {
-  String? imageUrl;
-  ImagePicker imagePicker = ImagePicker();
-  XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-  print('${file?.path}');
-  if (file == null) return "";
-
-  String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
-  Reference referenceRoot = FirebaseStorage.instance.ref();
-  Reference referanceDirImages = referenceRoot.child('images');
-  Reference referanceimgtoupload = referanceDirImages.child(uniqueFilename);
-
-  try {
-    await referanceimgtoupload.putFile(File(file.path));
-    imageUrl = await referanceimgtoupload.getDownloadURL();
-    print('here its done');
-  } catch (e) {
-    print('error in try');
-    print(e);
-  }
-  return '$imageUrl';
 }
