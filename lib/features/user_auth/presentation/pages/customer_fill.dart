@@ -25,12 +25,10 @@ class _CustomerReqState extends State<CustomerReq> {
   bool regular = true;
   String? age;
   String? hb;
-  String? wb;
-  String? prc;
-  String? ffp;
-  String? rdp;
-  String? sdp;
-  String? bag;
+
+  String? quantity;
+
+  String? required;
   String? type;
   String? doctorname;
 
@@ -246,10 +244,10 @@ class _CustomerReqState extends State<CustomerReq> {
                     Divider(),
                     SizedBox(height: 10.0),
                     DropdownButtonFormField<String>(
-                      value: bag,
+                      value: required,
                       onChanged: (newValue) {
                         setState(() {
-                          bag = newValue;
+                          required = newValue;
                         });
                       },
                       items: bloodcomponent.map((mode) {
@@ -259,7 +257,7 @@ class _CustomerReqState extends State<CustomerReq> {
                         );
                       }).toList(),
                       decoration: customElevate(
-                          'Select Blood Requirement', Icons.payment),
+                          'Select Blood Requirement', Icons.bloodtype_outlined),
                       validator: (value) {
                         // Add validation for required field
                         if (value == null || value.isEmpty) {
@@ -272,7 +270,7 @@ class _CustomerReqState extends State<CustomerReq> {
                     TextFormField(
                       textAlign: TextAlign.left,
                       onChanged: (value) {
-                        ffp = value;
+                        quantity = value;
                       },
                       decoration: customElevate(
                           'Quantity required 100ml/Bags', Icons.bloodtype),
@@ -403,16 +401,8 @@ class _CustomerReqState extends State<CustomerReq> {
                     'paymentmode': paymentmode,
                     'age': age,
                     'hb': hb,
-                    'wb': wb,
-                    'prc': prc,
-                    'ffp': ffp,
-                    'rdp': rdp,
-                    'sdp': sdp,
-                    'required': bag,
-                    'rdp': rdp,
-                    'prc': prc,
-                    'ffp': ffp,
-                    'rdp': rdp,
+                    'quantity': quantity,
+                    'required': required,
                     'type': type,
                     'doctor': doctorname,
                   });

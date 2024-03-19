@@ -146,78 +146,21 @@ class RequetInfopage extends StatelessWidget {
                       Text('Blood Component Requirement'),
                       Divider(),
                       SizedBox(height: 10.0),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              textAlign: TextAlign.left,
-                              initialValue: 'WB:' +
-                                  userData['wb'], // Display fetched value
-                              enabled: false,
-                              decoration: customElevate('WB', Icons.bloodtype),
-                            ),
-                          ),
-                          SizedBox(width: 10.0),
-                          Expanded(
-                            child: TextFormField(
-                              textAlign: TextAlign.left,
-                              initialValue: 'FFP:' +
-                                  userData['ffp'], // Display fetched value
-                              enabled: false,
-                              decoration: customElevate('FFP', Icons.bloodtype),
-                            ),
-                          ),
-                        ],
+                      TextFormField(
+                        textAlign: TextAlign.left,
+                        initialValue: 'Required:' +
+                            userData['required'], // Display fetched value
+                        enabled: false,
+                        decoration: customElevate('Enter', Icons.bloodtype),
                       ),
                       SizedBox(height: 10.0),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              textAlign: TextAlign.left,
-                              initialValue: 'RDP:' +
-                                  userData['rdp'], // Display fetched value
-                              enabled: false,
-                              decoration: customElevate('RDP', Icons.bloodtype),
-                            ),
-                          ),
-                          SizedBox(width: 10.0),
-                          Expanded(
-                            child: TextFormField(
-                              textAlign: TextAlign.left,
-                              initialValue: 'SDP:' +
-                                  userData['sdp'], // Display fetched value
-                              enabled: false,
-                              decoration: customElevate('SDP', Icons.bloodtype),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10.0),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              textAlign: TextAlign.left,
-                              initialValue: 'PB:' +
-                                  userData[
-                                      'pediatricbag'], // Display fetched value
-                              enabled: false,
-                              decoration: customElevate(
-                                  'Pediatric 100ml/Bags', Icons.bloodtype),
-                            ),
-                          ),
-                          SizedBox(width: 10.0),
-                          Expanded(
-                            child: TextFormField(
-                              textAlign: TextAlign.left,
-                              initialValue: 'PRC:' +
-                                  userData['prc'], // Display fetched value
-                              enabled: false,
-                              decoration: customElevate('PRC', Icons.bloodtype),
-                            ),
-                          ),
-                        ],
+                      TextFormField(
+                        textAlign: TextAlign.left,
+                        initialValue: 'Quantity:' +
+                            userData['quantity'], // Display fetched value
+                        enabled: false,
+                        decoration: customElevate(
+                            'Enter ', Icons.production_quantity_limits),
                       ),
                       SizedBox(height: 20.0),
                       Text('Delivery & Payment Details'),
@@ -230,31 +173,20 @@ class RequetInfopage extends StatelessWidget {
                         decoration: customElevate('Enter Address', Icons.home),
                       ),
                       SizedBox(height: 10.0),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              textAlign: TextAlign.left,
-                              initialValue: 'Payment:' +
-                                  userData[
-                                      'paymentmode'], // Display fetched value
-                              enabled: false,
-                              decoration:
-                                  customElevate('Payment Mode', Icons.home),
-                            ),
-                          ),
-                          SizedBox(width: 10.0),
-                          Expanded(
-                            child: TextFormField(
-                              textAlign: TextAlign.left,
-                              initialValue: 'Type:' +
-                                  userData['type'], // Display fetched value
-                              enabled: false,
-                              decoration:
-                                  customElevate('Type', Icons.bloodtype),
-                            ),
-                          ),
-                        ],
+                      TextFormField(
+                        textAlign: TextAlign.left,
+                        initialValue: 'Payment:' +
+                            userData['paymentmode'], // Display fetched value
+                        enabled: false,
+                        decoration: customElevate('Payment Mode', Icons.home),
+                      ),
+                      SizedBox(height: 10.0),
+                      TextFormField(
+                        textAlign: TextAlign.left,
+                        initialValue:
+                            'Type:' + userData['type'], // Display fetched value
+                        enabled: false,
+                        decoration: customElevate('Type', Icons.bloodtype),
                       ),
                       SizedBox(height: 10.0),
                     ],
